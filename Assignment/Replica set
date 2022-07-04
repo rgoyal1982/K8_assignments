@@ -1,0 +1,72 @@
+ 1.  (a)RC have container port details whereas replicaset does not have.
+     (b)Rc have  kind ReplicationController whereas replicaset have ReplicaSet.
+	 (c)RC have apiVersion V1 whereas replicaset have only app/V1
+	 
+	 
+	 
+2.  [root@ip-172-31-30-193 05-services]#
+[root@ip-172-31-30-193 05-services]# kubectl apply -f kubia-replicaset.yaml
+replicaset.apps/kubia created
+[root@ip-172-31-30-193 05-services]# kubectl get rs
+NAME                DESIRED   CURRENT   READY   AGE
+kubia               3         3         0       21s
+
+[root@ip-172-31-30-193 05-services]#
+
+
+3. kubectl apply -f <kubia-replicaset.yaml>
+
+4. 
+
+
+
+[root@ip-172-31-30-193 05-services]# kubectl get all -o wide
+NAME              READY   STATUS    RESTARTS   AGE   IP                NODE                                               NOMINATED NODE   READINESS GATES
+pod/kubia-582mj   1/1     Running   0          80s   192.168.207.120   ip-172-31-25-195.ap-southeast-1.compute.internal   <none>           <none>
+pod/kubia-jtlf7   1/1     Running   0          80s   192.168.207.119   ip-172-31-25-195.ap-southeast-1.compute.internal   <none>           <none>
+pod/kubia-sv6ww   1/1     Running   0          80s   192.168.207.121   ip-172-31-25-195.ap-southeast-1.compute.internal   <none>           <none>
+
+NAME             TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE   SELECTOR
+service/kubia2   ClusterIP   10.99.10.99   <none>        80/TCP    23s   app=kubia
+
+NAME                    DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES        SELECTOR
+replicaset.apps/kubia   3         3         3       80s   kubia        luksa/kubia   app=kubia
+
+
+[root@ip-172-31-30-193 05-services]#
+[root@ip-172-31-30-193 05-services]#
+[root@ip-172-31-30-193 05-services]# curl 10.99.10.99:80
+You've hit kubia-25xxw
+
+
+
+
+
+
+
+
+5. Post change yamal file of RS not able to connect as seletor name is differant.
+
+
+[root@ip-172-31-30-193 05-services]# kubectl get all -o wide
+NAME              READY   STATUS    RESTARTS   AGE   IP                NODE                                               NOMINATED NODE   READINESS GATES
+pod/kubia-ndxv8   1/1     Running   0          25s   192.168.207.126   ip-172-31-25-195.ap-southeast-1.compute.internal   <none>           <none>
+pod/kubia-rs94j   1/1     Running   0          25s   192.168.207.127   ip-172-31-25-195.ap-southeast-1.compute.internal   <none>           <none>
+pod/kubia-zshbq   1/1     Running   0          25s   192.168.207.125   ip-172-31-25-195.ap-southeast-1.compute.internal   <none>           <none>
+
+NAME             TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE   SELECTOR
+service/kubia2   ClusterIP   10.99.10.99   <none>        80/TCP    24m   app=kubia
+
+NAME                    DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES        SELECTOR
+replicaset.apps/kubia   3         3         3       25s   kubia        luksa/kubia   app=kubi
+
+
+[root@ip-172-31-30-193 05-services]# curl 10.99.10.99:80
+curl: (7) Failed to connect to 10.99.10.99 port 80 after 0 ms: Connection refused
+  
+
+
+
+
+
+	 
