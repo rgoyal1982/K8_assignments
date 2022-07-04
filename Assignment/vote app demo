@@ -1,0 +1,4 @@
+1.  When delete vote and worker pods there is no effect and both are created with new one.
+2.  when DB is deleted voting app is working fine but result is stuck and no chnages reflect as per vote.
+3.  Deleted result pod and it stard working with new result pod.
+4.  for long term need to remove DB dependancy and need to craete from API input. 
